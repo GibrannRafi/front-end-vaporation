@@ -1,0 +1,11 @@
+/* src/main.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tambahkan gaya global kustom lainnya di bawah ini jika ada */
+body {
+  /* Contoh gaya dasar */
+  font-family: sans-serif; /* Tailwind biasanya mereset font, ini untuk contoh */
+}

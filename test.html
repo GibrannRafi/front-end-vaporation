@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metode Bagi Dua (dengan Toleransi & Notasi Ilmiah)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+      .container {
+        background-color: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        color: #2c3e50;
+        text-align: center;
+      }
+      label {
+        display: block;
+        margin-top: 12px;
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #34495e;
+      }
+      input[type='text'],
+      input[type='number'] {
+        width: calc(100% - 24px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 1em;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1em;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+        display: block;
+        width: 100%;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      #hasilDiv,
+      #tabelContainer {
+        margin-top: 25px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+        font-size: 0.95em;
+      }
+      th {
+        background-color: #3498db;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #ecf0f1;
+      }
+      tr:hover {
+        background-color: #d6eaf8;
+      }
+      .error-message {
+        color: #e74c3c;
+        background-color: #fbeae5;
+        border: 1px solid #e74c3c;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 15px;
+      }
+      .success-message {
+        color: #27ae60;
+        background-color: #eaf7f0;
+        border: 1px solid #27ae60;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 15px;
+      }
+      .warning-message {
+        /* Digunakan jika max iterasi tercapai */
+        color: #f39c12;
+        background-color: #fef9e7;
+        border: 1px solid #f39c12;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Kalkulator Metode Bagi Dua</h1>
+      <p style="text-align: center; font-style: italic">
+        Iterasi berhenti jika $f(X_t)=0$, $|f(X_t)| < \epsilon$, atau Maksimum Iterasi tercapai.
+      </p>
+
+      <label for="fungsi">Fungsi $f(x)$ (misal: x**3 + x**2 - 3*x - 3):</label>
+      <input type="text" id="fungsi" value="x**3 + x**2 - 3*x - 3" />
+
+      <label for="xn_awal">$X_n$ awal (batas bawah interval):</label>
+      <input type="number" id="xn_awal" step="any" value="1" />
+
+      <label for="xn_plus_1_awal">$X_{n+1}$ awal (batas atas interval):</label>
+      <input type="number" id="xn_plus_1_awal" step="any" value="2" />
+
+      <label for="toleransi">Toleransi $\epsilon$ (epsilon):</label>
+      <input type="number" id="toleransi" step="any" value="0.00000000000001" />
+      <label for="maxIterasi">Maksimum Iterasi:</label>
+      <input type="number" id="maxIterasi" value="100" />
+
+      <button onclick="hitungBagiDua()">Hitung Akar</button>
+
+      <div id="tabelContainer">
+        <h2>Tabel Iterasi:</h2>
+        <table id="tabelIterasi">
+          <thead>
+            <tr>
+              <th>Iterasi</th>
+              <th>$X_n$</th>
+              <th>$X_{n+1}$</th>
+              <th>$X_t$</th>
+              <th>$f(X_n)$</th>
+              <th>$f(X_{n+1})$</th>
+              <th>$f(X_t)$</th>
+              <th>$f(X_t) \cdot f(X_n)$</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div id="hasilDiv"></div>
+      <div id="pesanError" class="error-message" style="display: none"></div>
+    </div>
+
+    <script>
+      function evaluateFunction(fnString, xValue) {
+        try {
+          const scopeSafeFnString = fnString.replace(/\bx\b/g, `(${xValue})`)
+          return new Function('Math', `return ${scopeSafeFnString}`)(Math)
+        } catch (e) {
+          console.error('Error evaluating function:', e)
+          throw new Error(
+            "Fungsi tidak valid: '" +
+              fnString +
+              "'. Pastikan formatnya benar (misal: x**2 atau Math.pow(x,2)).",
+          )
+        }
+      }
+
+      function formatNumber(num, decimalPlacesFixed = 7, decimalPlacesExp = 4, threshold = 0.0001) {
+        if (typeof num !== 'number' || isNaN(num)) {
+          return num
+        }
+        if (num === 0) {
+          return num.toFixed(1)
+        }
+        if (Math.abs(num) < threshold && Math.abs(num) > 0) {
+          return num.toExponential(decimalPlacesExp)
+        }
+        return num.toFixed(decimalPlacesFixed)
+      }
+
+      function hitungBagiDua() {
+        const fnString = document.getElementById('fungsi').value
+        let a = parseFloat(document.getElementById('xn_awal').value)
+        let b = parseFloat(document.getElementById('xn_plus_1_awal').value)
+        const toleransiValue = parseFloat(document.getElementById('toleransi').value)
+        const maxIterasi = parseInt(document.getElementById('maxIterasi').value)
+
+        const tabelBody = document.getElementById('tabelIterasi').getElementsByTagName('tbody')[0]
+        const hasilDiv = document.getElementById('hasilDiv')
+        const pesanErrorDiv = document.getElementById('pesanError')
+
+        tabelBody.innerHTML = ''
+        hasilDiv.innerHTML = ''
+        pesanErrorDiv.style.display = 'none'
+        pesanErrorDiv.textContent = ''
+
+        if (
+          isNaN(a) ||
+          isNaN(b) ||
+          isNaN(toleransiValue) ||
+          isNaN(maxIterasi) ||
+          fnString.trim() === ''
+        ) {
+          pesanErrorDiv.textContent = 'Mohon isi semua field input dengan nilai yang valid.'
+          pesanErrorDiv.style.display = 'block'
+          return
+        }
+        if (toleransiValue <= 0) {
+          pesanErrorDiv.textContent = 'Toleransi harus lebih besar dari nol.'
+          pesanErrorDiv.style.display = 'block'
+          return
+        }
+        if (maxIterasi <= 0) {
+          pesanErrorDiv.textContent = 'Maksimum iterasi harus lebih besar dari nol.'
+          pesanErrorDiv.style.display = 'block'
+          return
+        }
+
+        let fa, fb
+        try {
+          fa = evaluateFunction(fnString, a)
+          fb = evaluateFunction(fnString, b)
+        } catch (e) {
+          pesanErrorDiv.textContent = e.message
+          pesanErrorDiv.style.display = 'block'
+          return
+        }
+
+        if (fa * fb >= 0) {
+          pesanErrorDiv.textContent =
+            'Nilai f(Xn) dan f(Xn+1) awal harus memiliki tanda yang berbeda. f(' +
+            a +
+            ') = ' +
+            formatNumber(fa) +
+            ', f(' +
+            b +
+            ') = ' +
+            formatNumber(fb)
+          pesanErrorDiv.style.display = 'block'
+          return
+        }
+
+        let iterasi = 0
+        let xt, fxt
+        let xn_iter, xn_plus_1_iter, fxn_iter, fxn_plus_1_iter
+
+        while (iterasi < maxIterasi) {
+          iterasi++
+
+          xn_iter = a
+          xn_plus_1_iter = b
+          fxn_iter = fa
+          fxn_plus_1_iter = fb
+
+          xt = (a + b) / 2
+          try {
+            fxt = evaluateFunction(fnString, xt)
+          } catch (e) {
+            pesanErrorDiv.textContent = e.message
+            pesanErrorDiv.style.display = 'block'
+            return
+          }
+
+          let fxt_times_fxn = fxt * fxn_iter
+
+          let baris = tabelBody.insertRow()
+          baris.insertCell().textContent = iterasi
+          baris.insertCell().textContent = formatNumber(xn_iter, 7)
+          baris.insertCell().textContent = formatNumber(xn_plus_1_iter, 7)
+          baris.insertCell().textContent = formatNumber(xt, 7)
+          baris.insertCell().textContent = formatNumber(fxn_iter, 7)
+          baris.insertCell().textContent = formatNumber(fxn_plus_1_iter, 7)
+          baris.insertCell().textContent = formatNumber(fxt, 7, 4)
+          baris.insertCell().textContent = formatNumber(fxt_times_fxn, 8, 4)
+
+          // KONDISI BERHENTI MENGGUNAKAN TOLERANSI
+          if (fxt === 0 || Math.abs(fxt) < toleransiValue) {
+            hasilDiv.innerHTML = `<div class="success-message">🎉 Akar Ditemukan!<br>
+                                        Akar perkiraan ($X_t$): <strong>${formatNumber(xt, 8)}</strong><br>
+                                        Dengan $f(X_t) = ${formatNumber(fxt, 10, 5)}$ (Nilai absolut: ${formatNumber(Math.abs(fxt), 10, 5)})<br>
+                                        Kondisi berhenti: $|f(X_t)| < ${toleransiValue} atau $f(X_t) = 0$<br>
+                                        Jumlah iterasi: ${iterasi}</div>`
+            return
+          }
+
+          if (fxn_iter * fxt < 0) {
+            b = xt
+            fb = fxt
+          } else {
+            a = xt
+            fa = fxt
+          }
+        }
+
+        hasilDiv.innerHTML = `<div class="warning-message">⚠️ Batas Maksimum Iterasi (${maxIterasi}) Tercapai.<br>
+                                Kondisi berhenti ($|f(X_t)| < \epsilon$ atau $f(X_t)=0$) tidak terpenuhi dalam ${maxIterasi} iterasi.<br>
+                                Akar perkiraan terakhir ($X_t$): <strong>${formatNumber(xt, 8)}</strong><br>
+                                Dengan $f(X_t) = ${formatNumber(fxt, 10, 5)}$ (Nilai absolut: ${formatNumber(Math.abs(fxt), 10, 5)})<br>
+                                Coba naikkan jumlah maksimum iterasi atau periksa ulang toleransi.</div>`
+      }
+    </script>
+  </body>
+</html>
