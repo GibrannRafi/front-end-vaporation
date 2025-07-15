@@ -75,16 +75,17 @@
     </div>
 
     <!-- PRODUCT GRID -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 ml-5">
-      <ProductCard
-        v-for="(product, index) in filteredProducts"
-        :key="index"
-        :title="product.title"
-        :description="product.description"
-        :image="product.image"
-      />
-    </div>
-
+    <router-link to="/product-detail">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 ml-5">
+        <ProductCard
+          v-for="(product, index) in filteredProducts"
+          :key="index"
+          :title="product.title"
+          :description="product.description"
+          :image="product.image"
+        />
+      </div>
+    </router-link>
     <!-- PAGINATION -->
     <div class="flex justify-center mt-6">
       <button class="px-3 py-1 mx-1 border rounded">&lt;</button>
