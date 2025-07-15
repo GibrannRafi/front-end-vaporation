@@ -1,20 +1,19 @@
 <script setup>
 import { ref } from 'vue'
 
-// State untuk melacak slide yang sedang aktif
+import Carousel1 from '@/assets/carousel-1.png'
+import Carousel2 from '@/assets/carousel-2.png'
+
 const activeIndex = ref(0)
 
-// Data untuk setiap slide berita. Ganti dengan data asli Anda.
 const newsItems = ref([
   {
     title: 'Ini liquid yang katanya bakal keluar 2 tahun lg',
-    imageUrl:
-      'https://images.unsplash.com/photo-1611699291152-d52363435015?q=80&w=2074&auto=format&fit=crop',
+    imageUrl: Carousel1,
   },
   {
-    title: 'Sebenernya bahaya tapi enak yakann bgt bgttt',
-    imageUrl:
-      'https://images.unsplash.com/photo-1594228803698-13233283c789?q=80&w=1974&auto=format&fit=crop',
+    title: 'Ini liquid yang katanya bakal keluar 2 tahun lg',
+    imageUrl: Carousel2,
   },
   // Anda bisa menambahkan item berita lain di sini
   {

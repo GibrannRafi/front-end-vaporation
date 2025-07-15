@@ -4,7 +4,7 @@
       class="absolute inset-0 bg-cover bg-center"
       :style="{ backgroundImage: 'url(' + bgImage + ')' }"
     ></div>
-
+    z
     <div
       class="container mx-auto relative z-5 flex flex-col md:flex-row items-center justify-between px-4 sm:px-8 lg:px-16"
     >
@@ -18,11 +18,13 @@
           Temukan perangkat vape inovatif dengan <br />
           desain modern dan performa optimal.
         </p>
-        <button
-          class="bg-[#101010] border border-custom-pink ml-24 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-pink-700 transition duration-300 ease-in-out"
-        >
-          Lihat Produk
-        </button>
+        <router-link to="/product">
+          <button
+            class="bg-[#101010] border border-custom-pink ml-24 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-pink-700 transition duration-300 ease-in-out"
+          >
+            Lihat Produk
+          </button>
+        </router-link>
       </div>
 
       <div class="w-full md:w-1/2 flex justify-center md:justify-end md:self-start">
@@ -37,8 +39,8 @@
 </template>
 
 <script>
-import bgImage from '../assets/bg_vape.png'
-import vapeProductsImage from '../assets/vape_product.png' // Impor gambar produk juga
+import bgImage from '`../../assets/bg_vape.png`'
+import vapeProductsImage from '../../assets/vape_product.png' // Impor gambar produk juga
 
 export default {
   name: 'HeroSection',

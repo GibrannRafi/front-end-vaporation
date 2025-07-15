@@ -1,7 +1,7 @@
 <template>
   <section class="bg-dark-black text-white py-16 px-4 sm:px-8 lg:px-16">
     <div class="container mx-auto flex items-center justify-between mb-8">
-      <h2 class="text-3xl md:text-4xl font-bold">New Rilis</h2>
+      <h2 class="text-3xl md:text-4xl font-bold">Top Product</h2>
       <div class="flex items-center space-x-4 text-gray-400">
         <button class="hover:text-white transition duration-200">
           <svg
@@ -39,38 +39,40 @@
       </div>
     </div>
 
-    <div
-      class="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-    >
-      <ProductCard
-        :image="product1Image"
-        title="Liquid penenang dapat mengatasi stress karena PI"
-        description="Liquid penenang dapat mengatasi stress karena PI"
-        :sold-count="731"
-        :is-new="true"
-      />
-      <ProductCard
-        :image="product2Image"
-        title="Liquid untuk membuka angkringan tutup dong??"
-        description="Liquid untuk membuka angkringan tutup dong??"
-        :sold-count="1"
-        :is-new="true"
-      />
-      <ProductCard
-        :image="product3Image"
-        title="Liquid penenang dapat mengatasi stress karena PI"
-        description="Liquid penenang dapat mengatasi stress karena PI"
-        :sold-count="731"
-        :is-new="true"
-      />
-      <ProductCard
-        :image="product4Image"
-        title="Liquid penenang dapat mengatasi stress karena PI"
-        description="Liquid penenang dapat mengatasi stress karena PI"
-        :sold-count="731"
-        :is-new="true"
-      />
-    </div>
+    <router-link to="/product">
+      <div
+        class="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      >
+        <ProductCard
+          :image="product1Image"
+          title="ChillNation - Chill Vibe"
+          description="Vanilla creamy dengan sensasi dingin yang halus."
+          :sold-count="731"
+          :is-new="true"
+        />
+        <ProductCard
+          :image="product2Image"
+          title="ChillNation - Crack Ice"
+          description="Stroberi manis berpadu dingin yang menyegarkan."
+          :sold-count="1"
+          :is-new="true"
+        />
+        <ProductCard
+          :image="product3Image"
+          title="ChillNation - Cool Mint Blast"
+          description="Mint segar kuat, cocok untuk rasa menthol sejuk."
+          :sold-count="731"
+          :is-new="true"
+        />
+        <ProductCard
+          :image="product4Image"
+          title="Taro Cream – Vaporion"
+          description="Ubi ungu manis berpadu krim lembut"
+          :sold-count="731"
+          :is-new="true"
+        />
+      </div>
+    </router-link>
   </section>
 </template>
 

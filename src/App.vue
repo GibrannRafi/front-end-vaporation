@@ -1,45 +1,31 @@
+<!-- src/App.vue -->
 <template>
-  <div id="app" class="overflow-x-hidden">
+  <div id="app" class="overflow-x-hidden min-h-screen flex flex-col">
     <Navbar />
-    <HeroSection />
-    <ProductSection />
-    <CategorySection />
-    <TopProduct />
-    <NewsProduct />
-
-    <main class="p-4"></main>
+    <main class="flex-grow">
+      <router-view />
+    </main>
+    <Footer />
   </div>
 </template>
 
 <script>
-// Import semua komponen yang dibutuhkan
 import Navbar from './components/Navbar.vue'
-import HeroSection from './components/HeroSection.vue'
-import ProductSection from './components/Card/ProductSection.vue'
-import CategorySection from './components/CategorySection.vue'
-import TopProduct from './components/Card/TopProduct.vue'
-import NewsProduct from './components/NewsProduct.vue'
+import Footer from './components/Footer.vue'
 
 export default {
   name: 'App',
   components: {
-    // Daftarkan semua komponen di sini
     Navbar,
-    HeroSection,
-    ProductSection,
-    CategorySection,
-    TopProduct,
-    NewsProduct,
+    Footer,
   },
 }
 </script>
 
 <style>
-/* Pastikan Anda sudah mengimpor file CSS utama jika ada */
 @import '@/assets/main.css';
 
-/* Style global lainnya bisa ditambahkan di sini */
 body {
-  background-color: #101010; /* Contoh background dari tailwind.config.js */
+  background-color: #101010;
 }
 </style>

@@ -1,31 +1,3 @@
-<script setup>
-import { ref } from 'vue'
-
-// Data untuk setiap kartu kategori.
-// Ganti URL gambar dengan path yang benar dari folder `src/assets` atau URL eksternal.
-// Contoh jika gambar ada di assets: import hexommImage from '@/assets/hexomm.jpg';
-const categories = ref([
-  {
-    title: 'Hexomm Rigidbody',
-    // Ganti dengan path gambar Anda
-    imageUrl:
-      'https://images.unsplash.com/photo-1588340578485-74cde6453298?q=80&w=2070&auto=format&fit=crop',
-  },
-  {
-    title: 'Pod Oxva Angker',
-    // Ganti dengan path gambar Anda
-    imageUrl:
-      'https://images.unsplash.com/photo-1612811333999-a9045ddac82f?q=80&w=2070&auto=format&fit=crop',
-  },
-  {
-    title: 'Liquid Makna J6x V3',
-    // Ganti dengan path gambar Anda
-    imageUrl:
-      'https://images.unsplash.com/photo-1622521093593-3731835d0413?q=80&w=1974&auto=format&fit=crop',
-  },
-])
-</script>
-
 <template>
   <!-- Kontainer utama dengan background gelap dan padding -->
   <div class="bg-dark-black w-full py-10 px-4 sm:px-6 lg:px-8">
@@ -47,7 +19,9 @@ const categories = ref([
           <div
             class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
             :style="{ backgroundImage: `url(${category.imageUrl})` }"
-          ></div>
+          >
+            <Kategori1 />
+          </div>
 
           <!-- Overlay Gradient untuk membuat teks lebih terbaca -->
           <div
@@ -65,6 +39,30 @@ const categories = ref([
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+// Import gambar lokal
+import kategori1 from '@/assets/kategori-1.png'
+import kategori2 from '@/assets/kategori-2.png'
+import kategori3 from '@/assets/kategori-3.png'
+
+const categories = ref([
+  {
+    title: 'Hexomm Rigidbody',
+    imageUrl: kategori1,
+  },
+  {
+    title: 'Pod Oxva Angker',
+    imageUrl: kategori2,
+  },
+  {
+    title: 'Liquid Makna J6x V3',
+    imageUrl: kategori3,
+  },
+])
+</script>
 
 <style scoped>
 /* Kita bisa menambahkan style tambahan di sini jika diperlukan,

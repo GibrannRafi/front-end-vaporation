@@ -1,9 +1,16 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+<script>
+import Index from '../components/Landing/index.vue'
+
+export default {
+  name: 'Landing',
+  components: {
+    Index,
+  },
+}
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <Index />
   </main>
 </template>
