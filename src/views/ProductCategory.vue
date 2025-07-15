@@ -75,17 +75,16 @@
     </div>
 
     <!-- PRODUCT GRID -->
-    <router-link to="/product-detail">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 ml-5">
-        <ProductCard
-          v-for="(product, index) in filteredProducts"
-          :key="index"
-          :title="product.title"
-          :description="product.description"
-          :image="product.image"
-        />
-      </div>
-    </router-link>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 ml-5">
+      <ProductCard
+        v-for="(product, index) in filteredProducts"
+        :key="index"
+        :title="product.title"
+        :description="product.description"
+        :image="product.image"
+        @click="goToDetail(product)"
+      />
+    </div>
     <!-- PAGINATION -->
     <div class="flex justify-center mt-6">
       <button class="px-3 py-1 mx-1 border rounded">&lt;</button>
@@ -103,6 +102,20 @@ import Atomizer from '../assets/atomizer.png'
 import Accesoris from '../assets/accesoris.png'
 import Liquid from '../assets/liquid.png'
 import PodAir from '../assets/pod-air.jpg'
+import Acc1 from '../assets/pro-acc.png'
+import Acc2 from '../assets/acc-2.png'
+import Pod1 from '../assets/pod-1.png'
+import Pod2 from '../assets/pod-2.png'
+import Pod3 from '../assets/pod-3.png'
+import Atom1 from '../assets/atom-1.png'
+import Atom2 from '../assets/atom-2.png'
+import Atom3 from '../assets/atom-3.png'
+import Mod1 from '../assets/mod-1.png'
+import Mod2 from '../assets/mod-2.png'
+import Mod3 from '../assets/mode-3.png'
+import Liq1 from '../assets/liq-1.png'
+import Liq2 from '../assets/liq-2.png'
+import Liq3 from '../assets/liq-3.png'
 
 export default {
   components: {
@@ -119,75 +132,92 @@ export default {
       Liquid,
       products: [
         {
-          title: 'CHILL VIBE',
-          image: Mod,
-          price: 'high',
-          description: ' Rasa manis lembut, cocok buat santai. alalalaong',
-        },
-        {
-          title: 'Mod Alpha',
-          image: PodAir,
-          price: 'high',
-          description: 'Mod premium dengan daya besar dan desain elegan.',
-        },
-        {
-          title: 'Mod Spark',
+          title: 'Pod Oxva Oneo',
           price: 'medium',
-          description: 'Cocok untuk pemula, ringan dan praktis digunakan.',
+          image: Pod2,
+          description: 'Pod praktis dengan performa solid dan desain elegan.',
         },
         {
-          title: 'Mod Xtra',
+          title: 'Accesoris Diy Kid V2',
+          image: Acc2,
           price: 'high',
-          description: 'Mod high power untuk cloud chaser sejati.',
+          description: 'Kit lengkap untuk kebutuhan DIY coil harian.',
+        },
+        {
+          title: 'Accesoris Nitrous toolkit',
+          price: 'medium',
+          image: Acc1,
+          description: 'Toolkit build coil premium untuk vapers serius.',
+        },
+        {
+          title: 'Atomizer Stalk RDA V2',
+          price: 'high',
+          image: Atom1,
+          description: 'Flavor mantap dan cloud besar dalam satu atomizer.',
         },
 
         // POD
         {
-          title: 'Pod Air',
+          title: 'Atomizer Nitrouse RDA V3',
+          image: Atom2,
           price: 'low',
-          description: 'Pod ringan dengan rasa tajam dan praktis dibawa.',
+          description: 'Upgrade rasa dan uap maksimal, cocok untuk RDA fans.',
         },
         {
-          title: 'Pod Max',
-          price: 'medium',
-          description: 'Isi ulang cepat dengan daya tahan baterai tinggi.',
+          title: 'Atomizer Nitrous RTA',
+          image: Atom3,
+          price: 'low',
+          description: 'RTA ringan dengan rasa optimal dan build mudah.',
         },
         {
-          title: 'Pod Lite',
+          title: 'Pod Boro POD Zulu',
+          image: Pod3,
           price: 'low',
-          description: 'Desain minimalis cocok untuk pemula.',
+          description: 'Khasiat yang nikmat serta bergizi yoi yoi asik asik jos',
         },
 
-        // LIQUID
+        // LIQUID (MOD)
         {
-          title: 'Chill Vibe',
+          title: 'Vox MOD',
+          image: Mod1,
           price: 'high',
-          description: 'Rasa manis lembut, cocok buat santai.',
+          description: 'Rasa manis lembut, cocok buat santai. apalagi kalo jomblo beuh',
         },
         {
-          title: 'Ice Berry',
+          title: 'MOD Hotcig R99',
+          image: Mod2,
           price: 'medium',
           description: 'Campuran berry segar dengan dingin menyegarkan.',
         },
         {
-          title: 'Mint Boost',
+          title: 'MOD Trml',
+          image: Mod3,
           price: 'low',
           description: 'Menthol kuat yang bikin segar di tiap hisapan.',
         },
 
-        // ACCESORIS
+        // LIQUID
         {
-          title: 'Coil Pro',
+          title: 'Liquid Bad Fellas V3',
+          image: Liq1,
           price: 'low',
-          description: 'Coil tahan lama dengan rasa maksimal.',
+          description: 'Coil tahan lama dengan rasa maksimal. campuran alami khas jawa',
         },
         {
-          title: 'Charger Fast',
+          title: 'Liquid Foom Fresh Mango',
+          image: Liq2,
           price: 'medium',
           description: 'Pengisi daya cepat dan aman untuk semua device.',
         },
         {
-          title: 'Drip Tip',
+          title: 'Liquid Zoo Tokyo Series',
+          image: Liq3,
+          price: 'low',
+          description: 'Drip tip nyaman dan stylish untuk vape kamu.',
+        },
+        {
+          title: 'Liquid Zoo Tokyo Series',
+          image: Liq3,
           price: 'low',
           description: 'Drip tip nyaman dan stylish untuk vape kamu.',
         },
@@ -200,6 +230,14 @@ export default {
         const matchesSearch = product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
         const matchesPrice = this.selectedPrice === '' || product.price === this.selectedPrice
         return matchesSearch && matchesPrice
+      })
+    },
+  },
+  methods: {
+    goToDetail(product) {
+      this.$router.push({
+        name: 'ProductDetail',
+        state: { product },
       })
     },
   },

@@ -52,22 +52,22 @@
         />
         <ProductCard
           :image="product2Image"
-          title="ChillNation - Crack Ice"
-          description="Stroberi manis berpadu dingin yang menyegarkan."
+          title="Liquid Fresh Mango Series"
+          description="Manga manis berpadu dingin yang menyegarkan."
           :sold-count="1"
           :is-new="true"
         />
         <ProductCard
           :image="product3Image"
-          title="ChillNation - Cool Mint Blast"
-          description="Mint segar kuat, cocok untuk rasa menthol sejuk."
+          title="MOD Hotcig R99"
+          description="Sensasi seperti di udara melayang dengan kenikmatan mod ini"
           :sold-count="731"
           :is-new="true"
         />
         <ProductCard
           :image="product4Image"
-          title="Taro Cream – Vaporion"
-          description="Ubi ungu manis berpadu krim lembut"
+          title="Accesoris Diy Kit"
+          description="Harga terjangkau murah dan yang pasti awet tahan lama untuk vape"
           :sold-count="731"
           :is-new="true"
         />
@@ -80,9 +80,9 @@
 import ProductCard from './ProductCard.vue'
 // Impor gambar-gambar produk Anda di sini
 import product1Image from '../../assets/yeaa.png' // Sesuaikan path dan nama file
-import product2Image from '../../assets/yeaa.png'
-import product3Image from '../../assets/yeaa.png'
-import product4Image from '../../assets/yeaa.png'
+import product2Image from '../../assets/liq-2.png'
+import product3Image from '../../assets/mod-2.png'
+import product4Image from '../../assets/pro-acc.png'
 
 export default {
   name: 'ProductSection',

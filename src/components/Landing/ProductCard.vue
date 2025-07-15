@@ -24,9 +24,7 @@
       </svg>
     </button>
 
-    <div
-      class="w-[206px] h-[225px] bg-gray-700 flex items-center ml-5 justify-center rounded-tl-[20px] mb-4"
-    >
+    <div class="w-[206px] h-[225px] flex items-center ml-5 justify-center rounded-tl-[20px] mb-4">
       <img :src="image" :alt="title" class="max-h-full max-w-full object-contain" />
     </div>
 

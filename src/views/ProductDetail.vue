@@ -1,13 +1,13 @@
 <template>
   <div class="min-h-screen bg-black text-white px-6 py-10">
     <div class="text-sm text-[#949090] italic font-semibold ml-[550px] mb-10">
-      Home / Product / Liquid / Hayati Salts Bubblegum Ice Flavour 10mg
+      Home / Product / {{ product.title }}
     </div>
 
     <div class="grid md:grid-cols-2 w-full">
       <!-- Left: Image -->
       <img
-        src="../assets/detail.png"
+        :src="product.image"
         alt="Product Image"
         class="w-[530px] h-[560px] rounded-lg shadow ml-48"
       />
@@ -20,7 +20,7 @@
             <span class="text-sm ml-2">6 Review</span>
           </div>
 
-          <h1 class="text-2xl font-bold mb-1">Hayati Nic Salts Bubblegum Ice Flavour 10mg</h1>
+          <h1 class="text-2xl font-bold mb-1">{{ product.title }}</h1>
           <p class="text-gray-400 line-through">Rp. 70.000</p>
           <p class="text-pink-500 font-bold text-xl mb-4">Rp. 50.000</p>
 
@@ -35,12 +35,12 @@
 
         <div class="flex gap-4 mb-4 mt-5 bg-[#191919] p-8 rounded-br-[71px]">
           <button
-            class="bg-[#DB486D] text-white text-[14px] italic font-bold rounded-[28px] px-6 py-3 rounded"
+            class="bg-[#DB486D] text-white text-[14px] italic font-bold rounded-[28px] px-6 py-3"
           >
             Tambahkan ke Keranjang
           </button>
           <button
-            class="bg-black text-white text-[14px] px-6 py-3 rounded border-4 rounded-[28px] border-[#DB486D]"
+            class="bg-black text-white text-[14px] px-6 py-3 rounded border-4 border-[#DB486D] rounded-[28px]"
           >
             Beli Dengan 1 Klik
           </button>
@@ -74,28 +74,12 @@
 
     <!-- Description -->
     <div class="mt-6 flex flex-col justify-center items-center">
-      <h2 class="text-[30px] font-bold mb-16">Hayati Nic Salts Bubblegum Ice Flavour</h2>
+      <h2 class="text-[30px] font-bold mb-16">{{ product.title }}</h2>
       <p class="w-[1172px]">
-        Introducing Hayati Pro Max E liquid, the epitome of vaping excellence designed to elevate
-        your vaping experience to new heights. Available in both 10 & 20 MG of Nicotine
-        Strength. Perfect VP/PG. Dive into a world of unparalleled flavour range with
-        upto 27 varieties and satisfaction with our meticulously crafted e-liquid.
+        {{ product.description }}
       </p>
-      <ul class="list-disc w-[1172px] pl-5 text-sm space-y-1">
-        <li>
-          TPD Compliant: Hayati E Liquid Complies with Tobacco Products Directive regulations,
-          ensuring quality and safety standards are met.
-        </li>
-        <li>
-          Available in 10 & 20 MG Nic: Tailored to suit your nicotine preference, providing options
-          for both moderate and stronger nicotine concentrations.
-        </li>
-        <li>Leak Proof Bottle: Engineered with precision to prevent leaks and spills.</li>
-        <li>Perfect VG/PG Ratio: Delivers an optimal balance of vapor and flavour intensity.</li>
-        <li>27 Luscious Flavours to choose from.</li>
-      </ul>
 
-      <!-- Flavour Profile -->
+      <!-- Flavor Profile -->
       <div class="bg-gray-900 rounded-lg flex gap-10 w-[680px] p-4 mt-20 w-fit">
         <img src="../assets/testi.png" alt="flavor" class="w-24 h-24 mt-5 ml-5" />
         <div class="">
@@ -135,10 +119,25 @@
   </div>
 </template>
 
+
 <script setup>
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 import Gratis from '../assets/gratis.png'
 import Cashback from '../assets/cashback.png'
 import Express from '../assets/pengiriman.png'
-</script>
+import DetailFallback from '../assets/detail.png'
 
-<style scoped></style>
+const route = useRoute()
+
+const product = computed(() => {
+  return (
+    route?.state?.product || {
+      title: 'Hayati Salts Bubblegum Ice Flavour',
+      image: DetailFallback,
+      price: 'medium',
+      description: 'Rasa manis menyegarkan dengan sensasi dingin.',
+    }
+  )
+})
+</script>
